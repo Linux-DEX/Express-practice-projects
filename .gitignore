@@ -11,3 +11,9 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
+
+*.class
+venv/
+env/
+.obsidian/
+.trash/
