@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -28,9 +29,34 @@ app.get("/", (req, res) => {
 //   res.send("User new form");
 // });
 
+app.get("/path", (req, res) => {
+  // current directory path
+  console.log("directory path -> ", path.dirname(__filename));
+  // current file name
+  console.log("File name -> ", path.basename(__filename));
+  // current file extension
+  console.log("File extension -> ", path.extname(__filename));
+
+  // join path
+  const joinPath = path.join("/user", "documents", "node", "projects");
+  console.log("joinPath -> ", joinPath);
+
+  // resolve path
+  const resolvePath = path.resolve("user", "documents", "node", "projects");
+  console.log("resolvePath -> ", resolvePath);
+
+  // normalize path
+  const normalizePath = path.normalize("/user/.documents/../node/projects");
+  console.log("normalizePath -> ", normalizePath);
+
+  res.status(200).json({ message: "path funcitons" });
+});
+
 const userRouter = require("./routes/users");
+const fileSystem = require("./routes/file-system");
 
 app.use("/users", userRouter);
+app.use("/file-system", fileSystem);
 
 function logger(req, res, next) {
   console.log(req.originalUrl);

@@ -1,0 +1,30 @@
+### Get all books
+GET http://localhost:3000/api/books/get
+
+### Get a single book by ID
+GET http://localhost:3000/api/books/get/679e1deab2a8808428608d42
+
+### Add a new book
+POST http://localhost:3000/api/books/add
+Content-Type: application/json
+
+{
+  "title": "New Book",
+  "author": "Author Name",
+  "genre": "Fiction",
+  "year": 2025
+}
+
+### Update an existing book by ID
+PUT http://localhost:3000/api/books/update/679e1deab2a8808428608d42
+Content-Type: application/json
+
+{
+  "title": "Updated Book Title",
+  "author": "Updated Author Name",
+  "genre": "Non-Fiction",
+  "year": 2026
+}
+
+### Delete a book by ID
+DELETE http://localhost:3000/api/books/delete/679e1deab2a8808428608d42

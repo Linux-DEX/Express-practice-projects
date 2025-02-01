@@ -1,0 +1,2 @@
+Hello from node js
+There are many distro which are based on arch linux so just use it.
