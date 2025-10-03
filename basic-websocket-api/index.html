@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #messages { list-style: none; padding: 0; }
+        #messages li { padding: 4px 8px; margin-bottom: 5px; background: #f0f0f0; border-radius: 4px; }
+        #message-form { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Chat Room</h2>
+    <ul id="messages"></ul>
+
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="Enter message" autocomplete="off" required>
+        <button type="submit">Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+
+        socket.on('newMessage', (message) => {
+            const li = document.createElement('li');
+            const time = new Date(message.createdAt).toLocaleTimeString();
+            li.textContent = `[${time}] ${message.from}: ${message.text}`;
+            document.getElementById('messages').appendChild(li);
+            li.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('message-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = document.getElementById('message-input');
+            const text = input.value.trim();
+            if (text === '') return;
+
+            socket.emit('createMessage', {
+                from: 'User',
+                text: text,
+                createdAt: Date.now()
+            });
+
+            input.value = '';
+        });
+
+        socket.on('disconnect', () => {
+            console.log('Disconnected from server');
+        });
+    </script>
+</body>
+</html>
+
